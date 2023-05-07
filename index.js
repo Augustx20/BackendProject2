@@ -1,5 +1,5 @@
-// Importamos la librería momentjs
 const moment = require('moment');
+const fs = require('fs')
 
 const fechaActual = moment();
 
@@ -12,3 +12,7 @@ if (!fechaNacimiento.isValid()) {
 const diasDesdeNacimiento = fechaActual.diff(fechaNacimiento, 'days');
 
 console.log(`Han pasado ${diasDesdeNacimiento} días desde mi nacimiento hasta hoy`);
+
+if(fs.existsSync('./BaseDate.txt')){
+  fs.appendFileSync('./BaseDate.txt', "Han pasado: " + diasDesdeNacimiento + " Dias " + "\n" )
+  }
