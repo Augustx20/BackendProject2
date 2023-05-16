@@ -1,4 +1,6 @@
+const express = require('express');
 const fs = require('fs');
+const { Module } = require('module');
 
 class ProductManager {
   constructor(path) {
@@ -16,8 +18,12 @@ class ProductManager {
     return newProduct;
   }
 
-  getProducts() {
-    return this.getProductsFromJSON();
+  getProducts(limit) {
+    const products = this.getProductsFromJSON();
+    if (limit) {
+      return products.slice(0, limit);
+    }
+    return products;
   }
 
   getProductById(id) {
@@ -71,35 +77,4 @@ class ProductManager {
   }
 }
 
-// Ejemplo de uso:
-
-const productManager = new ProductManager('products.json');
-
-const newProduct = {
-  title: 'Nuevo producto',
-  description: 'Descripción del nuevo producto',
-  price: 100,
-  thumbnail: 'imagen_del_nuevo_producto.jpg',
-  code: '123456',
-  stock: 10
-};
-
-productManager.addProduct(newProduct);
-
-const allProducts = productManager.getProducts();
-console.log(allProducts);
-
-const productId = 1;
-const product = productManager.getProductById(productId);
-console.log(product);
-
-const updatedFields = {
-  title: 'Producto actualizado',
-  price: 200
-};
-
-const updatedProduct = productManager.updateProduct(productId, updatedFields);
-console.log(updatedProduct);
-
-const deletedProduct = productManager.deleteProduct(productId);
-console.log(deletedProduct);
+module.exports = ProductManager;
